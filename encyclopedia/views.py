@@ -39,3 +39,8 @@ def new_page(request):
         })
     else:
         return render(request, "encyclopedia/new_page.html")
+    
+def edit_page(request, name):
+    return render(request, "encyclopedia/edit_page.html", {
+        "content": util.get_entry(name)
+    })
