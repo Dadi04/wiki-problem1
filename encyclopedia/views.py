@@ -8,10 +8,8 @@ import markdown2
 
 
 def index(request):
-    result = request.GET.get('q')
     return render(request, "encyclopedia/index.html", {
         "entries": util.list_entries(),
-        "result": result
     })
 
 def entry(request, name):
@@ -28,4 +26,13 @@ def search(request):
     results = [entry for entry in entries if text.lower() in entry.lower()]
     return render(request, "encyclopedia/search_results.html", {
         "entries": results
+    })
+
+def new_page(request):
+    title = request.POST['title']
+    content = request.POST['content']
+    util.save_entry(title, content)
+    return render(request, "encyclopedia/entry.html", {
+        "title": title,
+        "text": content
     })
