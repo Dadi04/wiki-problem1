@@ -29,10 +29,13 @@ def search(request):
     })
 
 def new_page(request):
-    title = request.POST['title']
-    content = request.POST['content']
-    util.save_entry(title, content)
-    return render(request, "encyclopedia/entry.html", {
-        "title": title,
-        "text": content
-    })
+    if request.method == "POST":
+        title = request.POST.get("title", "")
+        content = request.POST.get("content", "")
+        util.save_entry(title, content)
+        return render(request, "encyclopedia/entry.html", {
+            "title": title,
+            "entry": content
+        })
+    else:
+        return render(request, "encyclopedia/new_page.html")
