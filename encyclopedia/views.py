@@ -63,7 +63,6 @@ def submit(request, name):
 
 def random_page(request):
     randomise = random.choice(util.list_entries())
-    print(randomise)
     return render(request, "encyclopedia/entry.html", {
         "entry": markdown2.markdown(util.get_entry(randomise)),
         "title": randomise
