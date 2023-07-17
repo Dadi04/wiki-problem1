@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.urls import reverse
+import random
 
 from . import util
 
@@ -47,8 +48,16 @@ def edit_page(request, name):
     })
 
 def submit(request, name):
-    util.save_entry(name, request.POST.get("textarea"))
+    util.save_entry(name, bytes(request.POST.get("textarea"),'utf8'))
     return render(request, "encyclopedia/entry.html", {
         "entry": markdown2.markdown(util.get_entry(name)),
         "title": name
+    })
+
+def random_page(request):
+    randomise = random.choice(util.list_entries())
+    print(randomise)
+    return render(request, "encyclopedia/entry.html", {
+        "entry": markdown2.markdown(util.get_entry(randomise)),
+        "title": randomise
     })

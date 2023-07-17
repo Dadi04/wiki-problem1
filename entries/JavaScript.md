@@ -1,1 +1,3 @@
-Java Script is nice language. Everyone should learn it
+# Java Script 
+
+JavaScript is nice language. Everyone should learn it
