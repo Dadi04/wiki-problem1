@@ -37,9 +37,10 @@ def new_page(request):
         title = request.POST.get("title", "")
         content = request.POST.get("content", "")
         util.save_entry(title, content)
+        new_content = markdown2.markdown(util.get_entry(title))
         return render(request, "encyclopedia/entry.html", {
             "title": title,
-            "entry": content
+            "entry": new_content
         })
     else:
         return render(request, "encyclopedia/new_page.html")
