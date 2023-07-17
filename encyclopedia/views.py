@@ -14,10 +14,13 @@ def index(request):
     })
 
 def entry(request, name):
-    return render(request, "encyclopedia/entry.html", {
-        "entry": markdown2.markdown(util.get_entry(name)),
-        "title": name
-    })
+    for names in util.list_entries():
+        if name in names:
+            return render(request, "encyclopedia/entry.html", {
+                "entry": markdown2.markdown(util.get_entry(name)),
+                "title": name
+            })
+    return render(request, "encyclopedia/error.html") 
 
 def search(request):
     entries = util.list_entries()
