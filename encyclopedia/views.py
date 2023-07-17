@@ -42,5 +42,13 @@ def new_page(request):
     
 def edit_page(request, name):
     return render(request, "encyclopedia/edit_page.html", {
-        "content": util.get_entry(name)
+        "content": util.get_entry(name),
+        "title": name
+    })
+
+def submit(request, name):
+    util.save_entry(name, request.POST.get("textarea"))
+    return render(request, "encyclopedia/entry.html", {
+        "entry": markdown2.markdown(util.get_entry(name)),
+        "title": name
     })

@@ -1,0 +1,1 @@
+Java Script is nice language. Everyone should learn it
