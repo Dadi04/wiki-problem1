@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse
 import random
 
@@ -20,7 +20,7 @@ def entry(request, name):
                 "entry": markdown2.markdown(util.get_entry(name)),
                 "title": name
             })
-    return render(request, "encyclopedia/error.html") 
+    return HttpResponse("The page you are looking for does not exist!") 
 
 def search(request):
     entries = util.list_entries()
@@ -36,12 +36,15 @@ def new_page(request):
     if request.method == "POST":
         title = request.POST.get("title", "")
         content = request.POST.get("content", "")
-        util.save_entry(title, content)
-        new_content = markdown2.markdown(util.get_entry(title))
-        return render(request, "encyclopedia/entry.html", {
-            "title": title,
-            "entry": new_content
-        })
+        if title in util.list_entries():
+            return HttpResponse(f"{title} already exists")
+        else:
+            util.save_entry(title, content)
+            new_content = markdown2.markdown(util.get_entry(title))
+            return render(request, "encyclopedia/entry.html", {
+                    "title": title,
+                    "entry": new_content
+                })
     else:
         return render(request, "encyclopedia/new_page.html")
     
